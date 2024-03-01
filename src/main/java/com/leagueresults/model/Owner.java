@@ -1,25 +1,32 @@
 package com.leagueresults.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String surname;
-
+    private String fullName;
+    private String country;
+    @OneToMany
+    private List<Club> clubs;
     public Owner() {
     }
 
-    public Owner( Long id, String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+    public Owner(Long id, String fullName, String country) {
         this.id = id;
+        this.fullName = fullName;
+        this.country = country;
+    }
+
+    public Owner(Long id, String fullName, String country, List<Club> clubs) {
+        this.id = id;
+        this.fullName = fullName;
+        this.country = country;
+        this.clubs = clubs;
     }
 
     public Long getId() {
@@ -30,20 +37,28 @@ public class Owner {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getCountry() {
+        return country;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public List<Club> getClubs() {
+        return clubs;
+    }
+
+    public void setClubs(List<Club> clubs) {
+        this.clubs = clubs;
     }
 }
 

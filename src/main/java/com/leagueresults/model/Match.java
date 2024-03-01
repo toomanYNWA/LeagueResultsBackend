@@ -19,21 +19,27 @@ public class Match {
     @ManyToOne
     @JoinColumn(name = "fk_round_id")
     private Round round;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_main_referee_id")
     private MainReferee mainReferee;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Competitors competitors;
+    @JoinColumn(name = "fk_host_id")
+    private Club host;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_guest_id")
+    private Club guest;
 
     public Match() {
     }
 
-    public Match(Long id, LocalDateTime kickoff, String result, Round round, Competitors competitors) {
+    public Match(Long id, LocalDateTime kickoff, String result, Round round, MainReferee mainReferee, Club host, Club guest) {
         this.id = id;
         this.kickoff = kickoff;
         this.result = result;
         this.round = round;
-        this.competitors = competitors;
+        this.mainReferee = mainReferee;
+        this.host = host;
+        this.guest = guest;
     }
 
     public Long getId() {
@@ -68,11 +74,27 @@ public class Match {
         this.round = round;
     }
 
-    public Competitors getCompetitors() {
-        return competitors;
+    public MainReferee getMainReferee() {
+        return mainReferee;
     }
 
-    public void setCompetitors(Competitors competitors) {
-        this.competitors = competitors;
+    public void setMainReferee(MainReferee mainReferee) {
+        this.mainReferee = mainReferee;
+    }
+
+    public Club getHost() {
+        return host;
+    }
+
+    public void setHost(Club host) {
+        this.host = host;
+    }
+
+    public Club getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Club guest) {
+        this.guest = guest;
     }
 }

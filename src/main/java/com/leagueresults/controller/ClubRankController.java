@@ -18,7 +18,6 @@ public class ClubRankController {
     public ClubRankController(ClubRankService clubRankService) {
         this.clubRankService = clubRankService;
     }
-
     @PostMapping("/uploadData")
     public ResponseEntity<?> uploadClubRanksData(@RequestParam("file")MultipartFile file){
         this.clubRankService.saveClubRanksToDatabase(file);

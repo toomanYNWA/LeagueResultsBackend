@@ -1,6 +1,7 @@
 package com.leagueresults.model;
 
 import com.leagueresults.enums.Hierarchy;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Manager {
     @OneToMany
     private List<Manager> assistants;
     @ManyToOne
+    @Nullable
     private Manager headManager;
     @ManyToOne
     @JoinColumn(name = "fk_club_id")

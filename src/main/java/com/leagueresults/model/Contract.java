@@ -3,6 +3,8 @@ package com.leagueresults.model;
 import com.leagueresults.enums.ContractType;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 public class Contract {
@@ -11,8 +13,7 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contract_id")
     private Long id;
-    private Date beginning;
-    private Date ending;
+    private LocalDateTime ending;
     private ContractType contractType;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -26,9 +27,8 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(Long id, Date beginning, Date ending, ContractType contractType) {
+    public Contract(Long id, LocalDateTime ending, ContractType contractType) {
         this.id = id;
-        this.beginning = beginning;
         this.ending = ending;
         this.contractType = contractType;
     }
@@ -41,19 +41,11 @@ public class Contract {
         this.id = id;
     }
 
-    public Date getBeginning() {
-        return beginning;
-    }
-
-    public void setBeginning(Date beginning) {
-        this.beginning = beginning;
-    }
-
-    public Date getEnding() {
+    public LocalDateTime getEnding() {
         return ending;
     }
 
-    public void setEnding(Date ending) {
+    public void setEnding(LocalDateTime ending) {
         this.ending = ending;
     }
 

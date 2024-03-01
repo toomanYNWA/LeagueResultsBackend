@@ -11,21 +11,17 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "ply_id")
     private Long id;
-    private String name;
-    private String surname;
+    private String fullName;
     private PlayerPosition playerPosition;
-    private Date dateOfBirth;
     private Long goals;
     private Long assists;
     public Player() {
     }
 
-    public Player(Long id, String name, String surname, PlayerPosition playerPosition, Date dateOfBirth, Long goals, Long assists) {
+    public Player(Long id, String fullName, PlayerPosition playerPosition, Long goals, Long assists) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.fullName = fullName;
         this.playerPosition = playerPosition;
-        this.dateOfBirth = dateOfBirth;
         this.goals = goals;
         this.assists = assists;
     }
@@ -38,20 +34,12 @@ public class Player {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public PlayerPosition getPlayerPosition() {
@@ -60,14 +48,6 @@ public class Player {
 
     public void setPlayerPosition(PlayerPosition playerPosition) {
         this.playerPosition = playerPosition;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public Long getGoals() {
