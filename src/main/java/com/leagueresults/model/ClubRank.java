@@ -11,7 +11,7 @@ public class ClubRank {
     private Long goalDifference;
     private Long won;
     private Long drawn;
-    private Long Lost;
+    private Long lost;
     private Long matchesPlayed;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -31,7 +31,7 @@ public class ClubRank {
         this.goalDifference = goalDifference;
         this.won = won;
         this.drawn = drawn;
-        Lost = lost;
+        this.lost = lost;
         this.club = club;
         this.league = league;
         this.matchesPlayed = matchesPlayed;
@@ -78,11 +78,11 @@ public class ClubRank {
     }
 
     public Long getLost() {
-        return Lost;
+        return lost;
     }
 
     public void setLost(Long lost) {
-        Lost = lost;
+        this.lost = lost;
     }
 
     public Club getClub() {

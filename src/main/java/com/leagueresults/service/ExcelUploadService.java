@@ -4,6 +4,7 @@ import com.leagueresults.enums.ContractType;
 import com.leagueresults.enums.PlayerPosition;
 import com.leagueresults.model.*;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -31,13 +32,15 @@ public class ExcelUploadService {
     private RoundService roundService;
     private MainRefereeService mainRefereeService;
     private PlayerService playerService;
+    private LeagueService leagueService;
 
     @Autowired
-    public ExcelUploadService(@Lazy ClubService clubService, RoundService roundService, MainRefereeService mainRefereeService,@Lazy PlayerService playerService) {
+    public ExcelUploadService(@Lazy ClubService clubService, RoundService roundService, MainRefereeService mainRefereeService,@Lazy PlayerService playerService,@Lazy LeagueService leagueService) {
         this.clubService = clubService;
         this.roundService = roundService;
         this.mainRefereeService = mainRefereeService;
         this.playerService = playerService;
+        this.leagueService = leagueService;
     }
 
     public  static boolean isValidExcelFile(MultipartFile file){
@@ -70,6 +73,7 @@ public class ExcelUploadService {
                         case 4 -> clubRank.setLost((long) cell.getNumericCellValue());
                         case 7 -> clubRank.setGoalDifference((long) cell.getNumericCellValue());
                         case 8 -> clubRank.setPoints((long) cell.getNumericCellValue());
+                        case 9 -> clubRank.setLeague(leagueService.getLeagueBySeason(cell.getStringCellValue()));
                         default -> {}
                     }
                     cellIndex++;
@@ -138,7 +142,7 @@ public class ExcelUploadService {
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
                     switch (cellIndex){
-                        case 1 -> match.setRound(roundService.getRoundByNumber(parseLong(cell.getStringCellValue())));
+                        case 1 -> match.setRound(roundService.getRoundByNumber(Long.parseLong(cell.getStringCellValue())));
                         case 2 -> match.setKickoff(cell.getLocalDateTimeCellValue());
                         case 4 -> match.setHost(clubService.GetClubByName(cell.getStringCellValue()));
                         case 5 -> match.setGuest(clubService.GetClubByName(cell.getStringCellValue()));

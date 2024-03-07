@@ -1,5 +1,6 @@
 package com.leagueresults.controller;
 
+import com.leagueresults.dtos.ClubRankDTO;
 import com.leagueresults.model.ClubRank;
 import com.leagueresults.service.ClubRankService;
 import org.springframework.http.HttpStatus;
@@ -11,21 +12,21 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("clubRank")
+@RequestMapping("club-rank")
 public class ClubRankController {
     private final ClubRankService clubRankService;
 
     public ClubRankController(ClubRankService clubRankService) {
         this.clubRankService = clubRankService;
     }
-    @PostMapping("/uploadData")
+    @PostMapping("/upload-data")
     public ResponseEntity<?> uploadClubRanksData(@RequestParam("file")MultipartFile file){
         this.clubRankService.saveClubRanksToDatabase(file);
         return ResponseEntity
                 .ok(Map.of("Message","Club ranks data uploaded and saved to database successfully"));
     }
-    @GetMapping("/getAll")
-    public ResponseEntity<List<ClubRank>> getAll(){
+    @GetMapping("/get-all")
+    public ResponseEntity<List<ClubRankDTO>> getAll(){
         return new ResponseEntity<>(clubRankService.getAllClubRanks(), HttpStatus.FOUND) ;
     }
 }

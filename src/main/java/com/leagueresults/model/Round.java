@@ -1,5 +1,6 @@
 package com.leagueresults.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Round {
     private League league;
 
     @OneToMany(mappedBy = "round", cascade = CascadeType.ALL)
-    private List<Match> matches = new ArrayList<>(10);
+    private List<Match> matches;
 
     public Round() {
     }
@@ -26,6 +27,12 @@ public class Round {
         this.roundNumber = roundNumber;
         this.league = league;
         this.matches = matches;
+    }
+
+    public Round(Long id, Long roundNumber, League league) {
+        this.id = id;
+        this.roundNumber = roundNumber;
+        this.league = league;
     }
 
     public Long getRoundNumber() {
@@ -50,5 +57,13 @@ public class Round {
 
     public void setMatches(List<Match> matches) {
         this.matches = matches;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

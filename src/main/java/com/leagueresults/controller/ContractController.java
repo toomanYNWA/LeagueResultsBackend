@@ -1,13 +1,14 @@
 package com.leagueresults.controller;
 
+import com.leagueresults.dtos.ContractDTO;
 import com.leagueresults.service.ContractService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,10 +19,14 @@ public class ContractController {
     public ContractController(ContractService contractService) {
         this.contractService = contractService;
     }
-    @PostMapping("/uploadData")
+    @PostMapping("/upload-data")
     public ResponseEntity<?> uploadContractsData(@RequestParam("file") MultipartFile file){
         this.contractService.saveContractsToDatabase(file);
         return ResponseEntity
                 .ok(Map.of("Message","Contracts data uploaded and saved to database successfully"));
+    }
+    @GetMapping("/get-all")
+    public ResponseEntity<List<ContractDTO>> getAllContracts(){
+        return new ResponseEntity<>(contractService.getAllContracts(), HttpStatus.FOUND);
     }
 }

@@ -239,3 +239,4 @@ INSERT INTO manager(name, surname, manager_type, fk_club_id, head_manager_id) VA
 INSERT INTO manager(name, surname, manager_type, fk_club_id) VALUES ('Gary', 'O''Neil', 0, 12);
 INSERT INTO manager(name, surname, manager_type, fk_club_id, head_manager_id) VALUES ('Tim', 'Jenkins', 1, 12, 39);
 
+INSERT INTO admin(username, password) VALUES ('admin','admin');
