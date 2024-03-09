@@ -1,36 +1,20 @@
-package com.leagueresults.model;
-
-import jakarta.persistence.*;
+package com.leagueresults.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-public class News {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class NewsDTO {
     private String headline;
     private String text;
     private LocalDate date;
 
-    public News() {
+    public NewsDTO() {
     }
 
-    public News(Long id, String headline, String text, LocalDate date) {
-        this.id = id;
+    public NewsDTO(String headline, String text, LocalDate date) {
         this.headline = headline;
         this.text = text;
         this.date = date;
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getHeadline() {
