@@ -2,8 +2,11 @@ package com.leagueresults.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsDTO {
+    private Long id;
     private String headline;
     private String text;
     private LocalDate date;
@@ -11,10 +14,19 @@ public class NewsDTO {
     public NewsDTO() {
     }
 
-    public NewsDTO(String headline, String text, LocalDate date) {
+    public NewsDTO(Long id, String headline, String text, LocalDate date) {
+        this.id = id;
         this.headline = headline;
         this.text = text;
         this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getHeadline() {

@@ -13,4 +13,12 @@ public class NewsConverterService {
         news.setText(dto.getText());
         return news;
     }
+    public NewsDTO entityToDto(News news){
+        NewsDTO newsDTO = new NewsDTO();
+        newsDTO.setId(news.getId());
+        newsDTO.setHeadline(news.getHeadline());
+        newsDTO.setText(news.getText());
+        newsDTO.setDate(news.getDate());
+        return newsDTO;
+    }
 }
