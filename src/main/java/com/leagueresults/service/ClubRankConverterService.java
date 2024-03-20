@@ -17,6 +17,7 @@ public class ClubRankConverterService {
         dto.setGoalDifference(clubRank.getGoalDifference());
         dto.setLeagueId(clubRank.getLeague().getId());
         dto.setMatchesPlayed(clubRank.getMatchesPlayed());
+        dto.setClubName(clubRank.getClub().getName());
         return dto;
     }
 }

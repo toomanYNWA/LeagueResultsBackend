@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("match")
 public class MatchController {
@@ -28,7 +28,7 @@ public class MatchController {
     }
     @GetMapping("/get-all")
     public ResponseEntity<List<MatchDTO>> getAll(){
-        return new ResponseEntity<>(matchService.getAll(), HttpStatus.FOUND);
+        return new ResponseEntity<>(matchService.getAll(), HttpStatus.OK);
     }
 
 }

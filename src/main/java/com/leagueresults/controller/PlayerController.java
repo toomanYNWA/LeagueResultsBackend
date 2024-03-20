@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("player")
 public class PlayerController {
@@ -28,6 +28,6 @@ public class PlayerController {
     }
     @GetMapping("/get-all")
     public ResponseEntity<List<PlayerDTO>> getAll(){
-        return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.FOUND) ;
+        return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK) ;
     }
 }

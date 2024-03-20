@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("contract")
 public class ContractController {
@@ -27,6 +27,6 @@ public class ContractController {
     }
     @GetMapping("/get-all")
     public ResponseEntity<List<ContractDTO>> getAllContracts(){
-        return new ResponseEntity<>(contractService.getAllContracts(), HttpStatus.FOUND);
+        return new ResponseEntity<>(contractService.getAllContracts(), HttpStatus.OK);
     }
 }

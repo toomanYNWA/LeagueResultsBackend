@@ -16,10 +16,22 @@ public class ClubRankDTO {
     private Long matchesPlayed;
     private Long clubId;
     private Long leagueId;
+    private String clubName;
 
     public ClubRankDTO() {
     }
-
+    public ClubRankDTO(Long id, Long points, Long goalDifference, Long won, Long drawn, Long lost, Long matchesPlayed, Long clubId, Long leagueId, String clubName) {
+        this.id = id;
+        this.points = points;
+        this.goalDifference = goalDifference;
+        this.won = won;
+        this.drawn = drawn;
+        this.lost = lost;
+        this.matchesPlayed = matchesPlayed;
+        this.clubId = clubId;
+        this.leagueId = leagueId;
+        this.clubName = clubName;
+    }
     public Long getId() {
         return id;
     }
@@ -92,15 +104,11 @@ public class ClubRankDTO {
         this.leagueId = leagueId;
     }
 
-    public ClubRankDTO(Long id, Long points, Long goalDifference, Long won, Long drawn, Long lost, Long matchesPlayed, Long clubId, Long leagueId) {
-        this.id = id;
-        this.points = points;
-        this.goalDifference = goalDifference;
-        this.won = won;
-        this.drawn = drawn;
-        this.lost = lost;
-        this.matchesPlayed = matchesPlayed;
-        this.clubId = clubId;
-        this.leagueId = leagueId;
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
     }
 }
