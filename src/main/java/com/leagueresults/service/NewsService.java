@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -30,6 +32,7 @@ public class NewsService {
         news.forEach(news1 -> {
             newsDTOS.add(newsConverterService.entityToDto(news1));
         });
+        Collections.reverse(newsDTOS);
         return newsDTOS;
     }
 }

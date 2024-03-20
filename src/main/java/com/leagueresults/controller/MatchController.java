@@ -30,5 +30,12 @@ public class MatchController {
     public ResponseEntity<List<MatchDTO>> getAll(){
         return new ResponseEntity<>(matchService.getAll(), HttpStatus.OK);
     }
-
+    @GetMapping("/get-results")
+    public ResponseEntity<List<MatchDTO>> getResults(){
+        return new ResponseEntity<>(matchService.getResults(), HttpStatus.OK);
+    }
+    @GetMapping("/get-fixtures")
+    public ResponseEntity<List<MatchDTO>> getFixtures(){
+        return new ResponseEntity<>(matchService.getFixtures(), HttpStatus.OK);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +37,31 @@ public class MatchService {
 
     public List<MatchDTO> getAll() {
         List<MatchDTO> matchDTOS = new ArrayList<>();
-
         this.matchRepository.findAll().forEach(match -> {
             MatchDTO matchDTO = matchConverterService.entityToDto(match);
             matchDTOS.add(matchDTO);
         });
+        return matchDTOS;
+    }
 
+    public List<MatchDTO> getResults() {
+        String result = "";
+        List<MatchDTO> matchDTOS = new ArrayList<>();
+        this.matchRepository.findAllByResultNot(result).forEach(match -> {
+            MatchDTO matchDTO = matchConverterService.entityToDto(match);
+            matchDTOS.add(matchDTO);
+        });
+        Collections.reverse(matchDTOS);
+        return matchDTOS;
+    }
+
+    public List<MatchDTO> getFixtures() {
+        String result = "";
+        List<MatchDTO> matchDTOS = new ArrayList<>();
+        this.matchRepository.findAllByResult(result).forEach(match -> {
+            MatchDTO matchDTO = matchConverterService.entityToDto(match);
+            matchDTOS.add(matchDTO);
+        });
         return matchDTOS;
     }
 }

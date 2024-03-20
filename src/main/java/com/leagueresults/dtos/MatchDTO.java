@@ -7,21 +7,30 @@ public class MatchDTO {
     private LocalDateTime kickoff;
     private String result;
     private Long roundId;
+    private Long roundNumber;
     private Long mainRefereeId;
+    private String refereeName;
+    private String refereeSurname;
     private Long hostId;
+    private String hostName;
     private Long guestId;
-
+    private String guestName;
     public MatchDTO() {
     }
 
-    public MatchDTO(Long id, LocalDateTime kickoff, String result, Long roundId, Long mainRefereeId, Long hostId, Long guestId) {
+    public MatchDTO(Long id, LocalDateTime kickoff, String result, Long roundId, Long roundNumber, Long mainRefereeId, String refereeName, String refereeSurname, Long hostId, String hostName, Long guestId, String guestName) {
         this.id = id;
         this.kickoff = kickoff;
         this.result = result;
         this.roundId = roundId;
+        this.roundNumber = roundNumber;
         this.mainRefereeId = mainRefereeId;
+        this.refereeName = refereeName;
+        this.refereeSurname = refereeSurname;
         this.hostId = hostId;
+        this.hostName = hostName;
         this.guestId = guestId;
+        this.guestName = guestName;
     }
 
     public Long getId() {
@@ -78,5 +87,45 @@ public class MatchDTO {
 
     public void setGuestId(Long guestId) {
         this.guestId = guestId;
+    }
+
+    public Long getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(Long roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    public String getRefereeName() {
+        return refereeName;
+    }
+
+    public void setRefereeName(String refereeName) {
+        this.refereeName = refereeName;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public String getRefereeSurname() {
+        return refereeSurname;
+    }
+
+    public void setRefereeSurname(String refereeSurname) {
+        this.refereeSurname = refereeSurname;
     }
 }

@@ -17,7 +17,11 @@ public class MatchConverterService {
         dto.setMainRefereeId(match.getMainReferee().getId());
         dto.setHostId(match.getHost().getId());
         dto.setGuestId(match.getGuest().getId());
-
+        dto.setGuestName(match.getGuest().getName());
+        dto.setHostName(match.getHost().getName());
+        dto.setRefereeName(match.getMainReferee().getName());
+        dto.setRoundNumber(match.getRound().getRoundNumber());
+        dto.setRefereeSurname(match.getMainReferee().getSurname());
         return dto;
     }
 }
