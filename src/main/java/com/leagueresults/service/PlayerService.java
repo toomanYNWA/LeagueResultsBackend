@@ -1,25 +1,31 @@
 package com.leagueresults.service;
 
+import com.leagueresults.CustomExceptions.PlayerNotFoundException;
+import com.leagueresults.dtos.ContractDTO;
 import com.leagueresults.dtos.PlayerDTO;
+import com.leagueresults.model.Contract;
 import com.leagueresults.model.Player;
 import com.leagueresults.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.util.Optional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
     private final PlayerRepository playerRepository;
     private final ExcelUploadService excelUploadService;
     private final PlayerConverterService playerConverterService;
+    private final ContractService contractService;
 
-    public PlayerService(PlayerRepository playerRepository, ExcelUploadService excelUploadService, PlayerConverterService playerConverterService) {
+    public PlayerService(PlayerRepository playerRepository, ExcelUploadService excelUploadService, PlayerConverterService playerConverterService, ContractService contractService) {
         this.playerRepository = playerRepository;
         this.excelUploadService = excelUploadService;
         this.playerConverterService = playerConverterService;
+        this.contractService = contractService;
     }
     public void savePlayersToDatabase(MultipartFile file) {
         if (ExcelUploadService.isValidExcelFile(file)) {
@@ -44,4 +50,22 @@ public class PlayerService {
         });
         return playerDTOS;
     }
+
+
+
+    public List<PlayerDTO> getPlayersByClubId(Long id) {
+        List<PlayerDTO> playerDTOS = new ArrayList<>();
+        List<ContractDTO> contracts = this.contractService.getContractsByClubId(id);
+        contracts.forEach(contract -> {
+            Optional<Player> playerOptional = this.playerRepository.findById(contract.getPlayerId());
+            if (playerOptional.isPresent()) {
+                PlayerDTO playerDTO = playerConverterService.entityToDto(playerOptional.get());
+                playerDTOS.add(playerDTO);
+            } else {
+                throw new PlayerNotFoundException("Player not found for contract ID: " + contract.getId());
+            }
+        });
+        return playerDTOS;
+    }
+
 }

@@ -30,4 +30,8 @@ public class PlayerController {
     public ResponseEntity<List<PlayerDTO>> getAll(){
         return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK) ;
     }
+    @GetMapping("/get-player-by-club/{id}")
+    public ResponseEntity<List<PlayerDTO>> getPlayerByClubId(@PathVariable Long id) {
+        return new ResponseEntity<>(playerService.getPlayersByClubId(id), HttpStatus.OK);
+    }
 }

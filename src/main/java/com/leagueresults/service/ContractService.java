@@ -40,4 +40,13 @@ public class ContractService {
         });
         return contractDTOS;
     }
+
+    public List<ContractDTO> getContractsByClubId(Long id) {
+        List<ContractDTO> contractDTOS = new ArrayList<>();
+        this.contractRepository.findAllByClubId(id).forEach(contract -> {
+            ContractDTO contractDTO = contractConverterService.entityToDto(contract);
+            contractDTOS.add(contractDTO);
+        });
+        return contractDTOS;
+    }
 }
