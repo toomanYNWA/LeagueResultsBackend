@@ -20,18 +20,30 @@ public class PlayerController {
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
+
     @PostMapping("/upload-data")
-    public ResponseEntity<?> uploadPlayersData(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<?> uploadPlayersData(@RequestParam("file") MultipartFile file) {
         this.playerService.savePlayersToDatabase(file);
         return ResponseEntity
-                .ok(Map.of("Message","Players data uploaded and saved to database successfully"));
+                .ok(Map.of("Message", "Players data uploaded and saved to database successfully"));
     }
+
     @GetMapping("/get-all")
-    public ResponseEntity<List<PlayerDTO>> getAll(){
-        return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK) ;
+    public ResponseEntity<List<PlayerDTO>> getAll() {
+        return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK);
     }
+
     @GetMapping("/get-player-by-club/{id}")
     public ResponseEntity<List<PlayerDTO>> getPlayerByClubId(@PathVariable Long id) {
         return new ResponseEntity<>(playerService.getPlayersByClubId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/players-goals")
+    public ResponseEntity<List<PlayerDTO>> getPlayerByGoals() {
+        return new ResponseEntity<>(playerService.getPlayersByGoals(), HttpStatus.OK);
+    }
+    @GetMapping("/players-assists")
+    public ResponseEntity<List<PlayerDTO>> getPlayerByAssists() {
+        return new ResponseEntity<>(playerService.getPlayersByAssists(), HttpStatus.OK);
     }
 }

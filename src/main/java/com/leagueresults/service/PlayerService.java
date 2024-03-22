@@ -8,10 +8,9 @@ import com.leagueresults.model.Player;
 import com.leagueresults.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.Optional;
+
+import java.util.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,8 +50,6 @@ public class PlayerService {
         return playerDTOS;
     }
 
-
-
     public List<PlayerDTO> getPlayersByClubId(Long id) {
         List<PlayerDTO> playerDTOS = new ArrayList<>();
         List<ContractDTO> contracts = this.contractService.getContractsByClubId(id);
@@ -65,6 +62,25 @@ public class PlayerService {
                 throw new PlayerNotFoundException("Player not found for contract ID: " + contract.getId());
             }
         });
+        return playerDTOS;
+    }
+    public List<PlayerDTO> getPlayersByGoals() {
+        List<PlayerDTO> playerDTOS = new ArrayList<>();
+        this.playerRepository.findAllByGoalsNot(0).forEach(player -> {
+            PlayerDTO playerDTO = playerConverterService.entityToDto(player);
+            playerDTOS.add(playerDTO);
+        });
+        Collections.sort(playerDTOS,Comparator.comparingLong(PlayerDTO::getGoals).reversed());
+        return playerDTOS;
+    }
+
+    public List<PlayerDTO> getPlayersByAssists() {
+        List<PlayerDTO> playerDTOS = new ArrayList<>();
+        this.playerRepository.findAllByAssistsNot(0).forEach(player -> {
+            PlayerDTO playerDTO = playerConverterService.entityToDto(player);
+            playerDTOS.add(playerDTO);
+        });
+        Collections.sort(playerDTOS,Comparator.comparingLong(PlayerDTO::getAssists).reversed());
         return playerDTOS;
     }
 

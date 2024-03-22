@@ -240,3 +240,24 @@ INSERT INTO manager(name, surname, manager_type, fk_club_id) VALUES ('Gary', 'O'
 INSERT INTO manager(name, surname, manager_type, fk_club_id, head_manager_id) VALUES ('Tim', 'Jenkins', 1, 12, 39);
 
 INSERT INTO admin(username, password) VALUES ('admin','admin');
+
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (89,61, 28, 5,5,38,8,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (84,45, 26, 6,6,38,7,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (75,15, 23, 6,9,38,13,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (71,35, 19, 14,5,38,15,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (67,28, 19, 10,9,38,1,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (62,19, 18, 8,12,38,2,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (61,5, 18, 7,13,38,19,2);
+INSERT INTO club_rank(points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (60,7, 18, 6,14,38,17,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (59, 12, 15, 14, 9, 38,4 ,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (52, 2, 15, 7, 16, 38, 6,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id )VALUES (45, -9, 11, 12, 15, 38, 14,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (44, -9, 11, 11, 16, 38, 16,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (41, -27, 11, 8, 19, 38, 12 ,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (40, -13, 11, 7, 20, 38, 11,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (39, -34, 11, 6, 21, 38, 20,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (38, -30, 9, 11, 18, 38, 5, 2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (36, -23, 8, 12, 18, 38, 9,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (34, -17, 9, 7, 22, 38, 22, 2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (31, -30, 7, 10, 21, 38, 23,2);
+INSERT INTO club_rank (points, goal_difference, won, drawn, lost, matches_played, fk_club_id, fk_league_id ) VALUES (25, -37, 6, 7, 25, 38, 24,2);

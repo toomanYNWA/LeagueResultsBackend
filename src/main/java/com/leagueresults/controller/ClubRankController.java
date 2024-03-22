@@ -25,8 +25,8 @@ public class ClubRankController {
         return ResponseEntity
                 .ok(Map.of("Message","Club ranks data uploaded and saved to database successfully"));
     }
-    @GetMapping("/get-all")
-    public ResponseEntity<List<ClubRankDTO>> getAll(){
-        return new ResponseEntity<>(clubRankService.getAllClubRanks(), HttpStatus.OK) ;
+    @GetMapping("/get-all/{seasonId}")
+    public ResponseEntity<List<ClubRankDTO>> getAll(@PathVariable Long seasonId){
+        return new ResponseEntity<>(clubRankService.getAllClubRanks(seasonId), HttpStatus.OK) ;
     }
 }
