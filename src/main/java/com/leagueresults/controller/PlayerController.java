@@ -1,9 +1,9 @@
 package com.leagueresults.controller;
 
 import com.leagueresults.dtos.PlayerDTO;
-import com.leagueresults.model.ClubRank;
-import com.leagueresults.model.Player;
 import com.leagueresults.service.PlayerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +45,13 @@ public class PlayerController {
     @GetMapping("/players-assists")
     public ResponseEntity<List<PlayerDTO>> getPlayerByAssists() {
         return new ResponseEntity<>(playerService.getPlayersByAssists(), HttpStatus.OK);
+    }
+    @GetMapping("/get-all-page/{pageNumber}")
+    public ResponseEntity<Page<PlayerDTO>> getAll(
+            @RequestParam(defaultValue = "10") int pageSize,
+            @PathVariable int pageNumber) {
+
+        Page<PlayerDTO> playersPage = playerService.getAllPlayersPage(PageRequest.of(pageNumber, pageSize));
+        return ResponseEntity.ok(playersPage);
     }
 }

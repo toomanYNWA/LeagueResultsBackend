@@ -6,6 +6,8 @@ import com.leagueresults.dtos.PlayerDTO;
 import com.leagueresults.model.Contract;
 import com.leagueresults.model.Player;
 import com.leagueresults.repository.PlayerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,5 +85,8 @@ public class PlayerService {
         Collections.sort(playerDTOS,Comparator.comparingLong(PlayerDTO::getAssists).reversed());
         return playerDTOS;
     }
-
+    public Page<PlayerDTO> getAllPlayersPage(PageRequest pageRequest) {
+        Page<Player> playersPage = playerRepository.findAll(pageRequest);
+        return playersPage.map(PlayerDTO::fromPlayer);
+    }
 }

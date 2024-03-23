@@ -13,6 +13,9 @@ public class ContractConverterService {
         dto.setContractType(contract.getContractType());
         dto.setEnding(contract.getEnding());
         dto.setPlayerId(contract.getPlayer().getId());
+        dto.setPlayerName(contract.getPlayer().getFullName());
+        dto.setClubName(contract.getClub().getName());
+
         return dto;
     }
 }

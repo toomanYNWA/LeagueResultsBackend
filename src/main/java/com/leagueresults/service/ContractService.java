@@ -1,8 +1,12 @@
 package com.leagueresults.service;
 
 import com.leagueresults.dtos.ContractDTO;
+import com.leagueresults.dtos.PlayerDTO;
 import com.leagueresults.model.Contract;
+import com.leagueresults.model.Player;
 import com.leagueresults.repository.ContractRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,5 +52,10 @@ public class ContractService {
             contractDTOS.add(contractDTO);
         });
         return contractDTOS;
+    }
+
+    public Page<ContractDTO> getAllPlayersPage(PageRequest pageRequest) {
+        Page<Contract> contracts = contractRepository.findAll(pageRequest);
+        return contracts.map(ContractDTO::fromContract);
     }
 }

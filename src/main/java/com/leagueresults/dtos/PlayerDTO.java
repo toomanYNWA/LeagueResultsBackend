@@ -1,6 +1,7 @@
 package com.leagueresults.dtos;
 
 import com.leagueresults.enums.PlayerPosition;
+import com.leagueresults.model.Player;
 
 public class PlayerDTO {
     private Long id;
@@ -60,5 +61,15 @@ public class PlayerDTO {
 
     public void setAssists(Long assists) {
         this.assists = assists;
+    }
+    public static PlayerDTO fromPlayer(Player player) {
+        PlayerDTO playerDTO = new PlayerDTO();
+        playerDTO.setId(player.getId());
+        playerDTO.setGoals(player.getGoals());
+        playerDTO.setPlayerPosition(player.getPlayerPosition());
+        playerDTO.setAssists(player.getAssists());
+        playerDTO.setFullName(player.getFullName());
+
+        return playerDTO;
     }
 }
