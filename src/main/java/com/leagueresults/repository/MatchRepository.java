@@ -11,4 +11,8 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     List<Match> findAllByResultNot(String result);
 
     Iterable<Match> findAllByResult(String result);
+
+    Iterable<Match> findAllByGuestName(String name);
+
+    Iterable<Match> findAllByHostName(String name);
 }

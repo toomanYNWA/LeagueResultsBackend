@@ -38,4 +38,9 @@ public class MatchController {
     public ResponseEntity<List<MatchDTO>> getFixtures(){
         return new ResponseEntity<>(matchService.getFixtures(), HttpStatus.OK);
     }
+    @GetMapping("/get-all-by-club/{name}")
+    public ResponseEntity<List<MatchDTO>> getMatches(@PathVariable String name){
+        return new ResponseEntity<>(matchService.getAllByClub(name),HttpStatus.OK);
+    }
+
 }

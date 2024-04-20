@@ -33,14 +33,16 @@ public class ExcelUploadService {
     private MainRefereeService mainRefereeService;
     private PlayerService playerService;
     private LeagueService leagueService;
+    private MatchService matchService;
 
     @Autowired
-    public ExcelUploadService(@Lazy ClubService clubService, RoundService roundService, MainRefereeService mainRefereeService,@Lazy PlayerService playerService,@Lazy LeagueService leagueService) {
+    public ExcelUploadService(@Lazy ClubService clubService, RoundService roundService, MainRefereeService mainRefereeService,@Lazy PlayerService playerService,@Lazy LeagueService leagueService,@Lazy MatchService matchService) {
         this.clubService = clubService;
         this.roundService = roundService;
         this.mainRefereeService = mainRefereeService;
         this.playerService = playerService;
         this.leagueService = leagueService;
+        this.matchService = matchService;
     }
 
     public  static boolean isValidExcelFile(MultipartFile file){
@@ -206,6 +208,80 @@ public class ExcelUploadService {
             e.printStackTrace();  // Use printStackTrace to see the exception details
         }
         return contracts;
+    }
+    public List<Statistics> getStatsDataFromExcel(InputStream inputStream){
+        List<Statistics> statisticsList = new ArrayList<>();
+
+
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet("stats");
+
+            int rowIndex = 0;
+
+            for (Row row : sheet){
+                List<Long> minutesHost = new ArrayList<>();
+                List<Long> minutesGuest = new ArrayList<>();
+                if(rowIndex == 0){
+                    rowIndex++;
+
+                    continue;
+                }
+                Iterator<Cell> cellIterator = row.iterator();
+                int cellIndex = 0;
+                Statistics statistics = new Statistics();
+                while (cellIterator.hasNext()){
+                    Cell cell = cellIterator.next();
+                    switch (cellIndex){
+                        case 0 -> statistics.setMatch(matchService.findMatchById(((long)cell.getNumericCellValue())));
+                        case 1 -> statistics.setPossessionHost(cell.getNumericCellValue());
+                        case 2 -> statistics.setPossessionGuest(cell.getNumericCellValue());
+                        case 3 -> statistics.setShotsHost((long) cell.getNumericCellValue());
+                        case 4 -> statistics.setOnTargetHost((long) cell.getNumericCellValue());
+                        case 5 -> statistics.setShotsGuest((long) cell.getNumericCellValue());
+                        case 6 -> statistics.setOnTargetGuest((long) cell.getNumericCellValue());
+                        case 7 -> {
+                            if(cell.getCellType()== CellType.NUMERIC){
+                                if(cell.getNumericCellValue() == 0){
+                                    cellIndex++;
+                                    continue;
+                                }else{
+                                    minutesHost.add((long)cell.getNumericCellValue());
+                                }
+
+                            }else{
+                            String[] splitInput = cell.getStringCellValue().split(",");
+                            for (String substring : splitInput) {
+                                minutesHost.add(Long.parseLong(substring.trim()));
+                            }
+                            }
+                            statistics.setHostMinutes(minutesHost);
+                        }
+                        case 8 -> {
+                            if(cell.getCellType()== CellType.NUMERIC){
+                                if(cell.getNumericCellValue() == 0){
+                                    continue;
+                                }
+                            minutesGuest.add((long)cell.getNumericCellValue());
+                        }else{
+                            String[] splitInput = cell.getStringCellValue().split(",");
+                            for (String substring : splitInput) {
+                                minutesGuest.add(Long.parseLong(substring.trim()));
+                            }
+                        }
+                            statistics.setGuestMinutes(minutesGuest);
+                        }
+                        default -> {}
+                    }
+                    cellIndex++;
+                }
+                statisticsList.add(statistics);
+            }
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+//        clubRanks.forEach(club -> club.setLeague());
+        return statisticsList;
     }
 }
 

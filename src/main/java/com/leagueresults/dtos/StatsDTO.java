@@ -1,30 +1,23 @@
-package com.leagueresults.model;
-
-import jakarta.persistence.*;
+package com.leagueresults.dtos;
 
 import java.util.List;
 
-@Entity
-public class Statistics {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Long shotsHost;
-    private Long onTargetHost;
-    private Long shotsGuest;
-    private Long onTargetGuest;
-    private Double possessionHost;
-    private Double possessionGuest;
-    private List<Long> hostMinutes;
-    private List<Long> guestMinutes;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_match_id")
-    private Match match;
+public class StatsDTO {
+        private Long id;
+        private Long shotsHost;
+        private Long onTargetHost;
+        private Long shotsGuest;
+        private Long onTargetGuest;
+        private Double possessionHost;
+        private Double possessionGuest;
+        private List<Long> hostMinutes;
+        private List<Long> guestMinutes;
+        private Long matchId;
 
-    public Statistics() {
+    public StatsDTO() {
     }
 
-    public Statistics(Long id, Long shotsHost, Long onTargetHost, Long shotsGuest, Long onTargetGuest, Double possessionHost, Double possessionGuest, List<Long> hostMinutes, List<Long> guestMinutes, Match match) {
+    public StatsDTO(Long id, Long shotsHost, Long onTargetHost, Long shotsGuest, Long onTargetGuest, Double possessionHost, Double possessionGuest, List<Long> hostMinutes, List<Long> guestMinutes, Long matchId) {
         this.id = id;
         this.shotsHost = shotsHost;
         this.onTargetHost = onTargetHost;
@@ -34,7 +27,7 @@ public class Statistics {
         this.possessionGuest = possessionGuest;
         this.hostMinutes = hostMinutes;
         this.guestMinutes = guestMinutes;
-        this.match = match;
+        this.matchId = matchId;
     }
 
     public Long getId() {
@@ -109,11 +102,11 @@ public class Statistics {
         this.guestMinutes = guestMinutes;
     }
 
-    public Match getMatch() {
-        return match;
+    public Long getMatchId() {
+        return matchId;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setMatchId(Long matchId) {
+        this.matchId = matchId;
     }
 }
