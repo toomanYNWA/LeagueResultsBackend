@@ -1,6 +1,7 @@
 package com.leagueresults.controller;
 
 import com.leagueresults.dtos.StatsDTO;
+import com.leagueresults.model.MinutesPerPeriods;
 import com.leagueresults.service.StatisticsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -29,5 +30,9 @@ public class StatisticsController {
     @GetMapping("/get-by-match-id/{matchId}")
     private ResponseEntity<StatsDTO> getStatByMatchId (@PathVariable Long matchId){
         return new ResponseEntity<>(this.statsService.getStatByMatchId(matchId), HttpStatus.OK);
+    }
+    @GetMapping("/period-goals-by-club-id/{clubId}")
+    private ResponseEntity<MinutesPerPeriods> getMPPByClubId(@PathVariable Long clubId){
+        return new ResponseEntity<>(this.statsService.getMPPByClubId(clubId), HttpStatus.OK);
     }
 }

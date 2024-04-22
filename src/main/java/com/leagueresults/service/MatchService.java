@@ -96,4 +96,12 @@ public class MatchService {
         return matchDTOS2;
 
     }
+
+    public List<Match> findAllByClubNameIsHost(String hostName) {
+        return (List<Match>) matchRepository.findAllByHostNameAndResultNot(hostName,"");
+    }
+
+    public List<Match> findAllByClubIdIsGuest(String guestName) {
+        return (List<Match>) matchRepository.findAllByGuestNameAndResultNot(guestName,"");
+    }
 }

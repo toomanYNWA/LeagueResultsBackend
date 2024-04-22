@@ -12,7 +12,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     Iterable<Match> findAllByResult(String result);
 
-    Iterable<Match> findAllByGuestName(String name);
+    Iterable<Match> findAllByGuestNameAndResultNot(String name,String result);
 
-    Iterable<Match> findAllByHostName(String name);
+    Iterable<Match> findAllByHostNameAndResultNot(String name,String result);
 }
