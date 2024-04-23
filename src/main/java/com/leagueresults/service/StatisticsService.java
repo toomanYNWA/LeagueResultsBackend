@@ -1,5 +1,10 @@
 package com.leagueresults.service;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.leagueresults.dtos.StatsDTO;
 import com.leagueresults.model.Club;
 import com.leagueresults.model.Match;
@@ -9,10 +14,14 @@ import com.leagueresults.repository.StatisticsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class StatisticsService {
@@ -21,6 +30,7 @@ public class StatisticsService {
     private final StatsConverterService statsConverterService;
     private final MatchService matchService;
     private final ClubService clubService;
+
     public StatisticsService(ExcelUploadService excelUploadService, StatisticsRepository statsRepository, StatsConverterService statsConverterService, MatchService matchService, ClubService clubService) {
         this.excelUploadService = excelUploadService;
         this.statsRepository = statsRepository;
@@ -46,7 +56,7 @@ public class StatisticsService {
         return statsDTO;
     }
 
-    public List<Long> getAllMinutes(Long clubId){
+    public List<Long> getAllMinutes(Long clubId) {
         List<Long> allMinutes = new ArrayList<>();
         Club club = clubService.getClubById(clubId);
 
@@ -75,11 +85,12 @@ public class StatisticsService {
         return allMinutes;
     }
 
-    public MinutesPerPeriods getMPPByClubId(Long clubId){
+    public MinutesPerPeriods getMPPByClubId(Long clubId) {
         int stPeriodCounter = 0;
         int ndPeriodCounter = 0;
         int rdPeriodCounter = 0;
         int injTimeCounter = 0;
+        Club club = clubService.getClubById(clubId);
         List<Long> listMinutes = getAllMinutes(clubId);
         for (Long minute : listMinutes) {
             switch ((int) (minute / 30)) {
@@ -103,7 +114,77 @@ public class StatisticsService {
         minutesPerPeriods.setSecondPeriod(ndPeriodCounter);
         minutesPerPeriods.setThirdPeriod(rdPeriodCounter);
         minutesPerPeriods.setInjuryTime(injTimeCounter);
-
+        generatePDF(minutesPerPeriods, club);
         return minutesPerPeriods;
+    }
+
+    public void generatePDF(MinutesPerPeriods mpp, Club club) {
+        Document document = new Document();
+        int goals = mpp.getFirstPeriod()+ mpp.getSecondPeriod()+mpp.getThirdPeriod()+ mpp.getInjuryTime();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(club.getName() + "GoalsStats.pdf"));
+            document.open();
+
+            PdfPTable table = new PdfPTable(1); // Create a table with one column
+            table.setWidthPercentage(100); // Set table width to 100% of the page width
+
+            // Add the image to the first cell of the table
+            PdfPCell cell = new PdfPCell();
+            Image logo = Image.getInstance("src/main/resources/static/logoPL.png");
+            float scale = 0.3f; // Adjust the scale factor to make the image 3x smaller
+            logo.scalePercent(scale * 100); // Scale the image
+            cell.addElement(logo);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT); // Align the cell content to the right
+            cell.setBorder(Rectangle.NO_BORDER); // Remove border from the cell
+            table.addCell(cell);
+
+            cell = new PdfPCell();
+
+            Font font = FontFactory.getFont(FontFactory.COURIER, 22, Font.BOLD, BaseColor.BLACK);
+            Paragraph paragraph = new Paragraph(club.getName() + " FC Stats", font);
+            paragraph.setSpacingAfter(10);
+            paragraph.setAlignment(Element.ALIGN_CENTER); // Align the paragraph to the right
+            cell.addElement(paragraph);
+            cell.setBorder(Rectangle.NO_BORDER); // Remove border from the cell
+            table.addCell(cell);
+
+            document.add(table);
+
+            Font headerFont = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, BaseColor.BLACK);
+            Paragraph header = new Paragraph("Goals By Periods",headerFont);
+            header.setAlignment(Element.ALIGN_LEFT);
+            header.setSpacingAfter(10);
+            document.add(header);
+
+            Paragraph paragraph1 = new Paragraph("Goals in first 30 minutes: " + formatDecimal(((float) mpp.getFirstPeriod() / (float) goals * 100)) + "% (" + mpp.getFirstPeriod() + ")");
+            Paragraph paragraph2 = new Paragraph("Goals in second 30 minutes: " + formatDecimal(((float) mpp.getSecondPeriod() / (float) goals * 100)) + "% (" + mpp.getSecondPeriod() + ")");
+            Paragraph paragraph3 = new Paragraph("Goals in third 30 minutes: " + formatDecimal(((float) mpp.getThirdPeriod() / (float) goals * 100)) + "% (" + mpp.getThirdPeriod() + ")");
+            Paragraph paragraph4 = new Paragraph("Goals in injury time: " + formatDecimal(((float) mpp.getInjuryTime() / (float) goals * 100)) + "% (" + mpp.getInjuryTime() + ")");
+            paragraph1.setAlignment(Element.ALIGN_LEFT);
+            paragraph2.setAlignment(Element.ALIGN_LEFT);
+            paragraph3.setAlignment(Element.ALIGN_LEFT);
+            paragraph4.setAlignment(Element.ALIGN_LEFT);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+            String formattedDate = LocalDate.now().format(formatter);
+            Font dateFont = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD, BaseColor.BLACK);
+            Paragraph date = new Paragraph("Data Taken On: " + formattedDate, dateFont);
+
+            date.setAlignment(Element.ALIGN_RIGHT);
+            document.add(paragraph1);
+            document.add(paragraph2);
+            document.add(paragraph3);
+            document.add(paragraph4);
+            document.add(date);
+
+            document.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public String formatDecimal(float value){
+        return String.format("%.2f",value);
     }
 }
