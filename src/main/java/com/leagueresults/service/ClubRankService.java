@@ -1,6 +1,7 @@
 package com.leagueresults.service;
 
 import com.leagueresults.dtos.ClubRankDTO;
+import com.leagueresults.model.Club;
 import com.leagueresults.model.ClubRank;
 import com.leagueresults.model.League;
 import com.leagueresults.repository.ClubRankRepository;
@@ -46,5 +47,9 @@ public class ClubRankService {
             clubRankDTOS.add(clubRankDTO);
         });
         return clubRankDTOS;
+    }
+
+    public ClubRank getByClub(Club club) {
+        return clubRankRepository.findByClubAndLeagueId(club, (long)1);
     }
 }

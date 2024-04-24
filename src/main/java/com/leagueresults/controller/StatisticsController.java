@@ -32,7 +32,9 @@ public class StatisticsController {
         return new ResponseEntity<>(this.statsService.getStatByMatchId(matchId), HttpStatus.OK);
     }
     @GetMapping("/period-goals-by-club-id/{clubId}")
-    private ResponseEntity<MinutesPerPeriods> getMPPByClubId(@PathVariable Long clubId){
-        return new ResponseEntity<>(this.statsService.getMPPByClubId(clubId), HttpStatus.OK);
+    private ResponseEntity<?> getMPPByClubId(@PathVariable Long clubId){
+        this.statsService.getMPPByClubId(clubId);
+        return ResponseEntity
+                .ok(Map.of("Message","PDF generated!"));
     }
 }

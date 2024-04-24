@@ -6,11 +6,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.leagueresults.dtos.StatsDTO;
-import com.leagueresults.model.Club;
-import com.leagueresults.model.Match;
-import com.leagueresults.model.MinutesPerPeriods;
-import com.leagueresults.model.Statistics;
+import com.leagueresults.model.*;
 import com.leagueresults.repository.StatisticsRepository;
+import org.apache.catalina.manager.ManagerServlet;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,13 +28,17 @@ public class StatisticsService {
     private final StatsConverterService statsConverterService;
     private final MatchService matchService;
     private final ClubService clubService;
+    private final ClubRankService clubRankService;
+    private final ManagerService managerService;
 
-    public StatisticsService(ExcelUploadService excelUploadService, StatisticsRepository statsRepository, StatsConverterService statsConverterService, MatchService matchService, ClubService clubService) {
+    public StatisticsService(ExcelUploadService excelUploadService, StatisticsRepository statsRepository, StatsConverterService statsConverterService, MatchService matchService, ClubService clubService, ClubRankService clubRankService, ManagerService managerService) {
         this.excelUploadService = excelUploadService;
         this.statsRepository = statsRepository;
         this.statsConverterService = statsConverterService;
         this.matchService = matchService;
         this.clubService = clubService;
+        this.clubRankService = clubRankService;
+        this.managerService = managerService;
     }
 
     public void saveStatsToDatabase(MultipartFile file) {
@@ -120,6 +122,8 @@ public class StatisticsService {
 
     public void generatePDF(MinutesPerPeriods mpp, Club club) {
         Document document = new Document();
+        ClubRank clubRank = clubRankService.getByClub(club);
+        List<Manager> managers = managerService.getManagersByClub(club);
         int goals = mpp.getFirstPeriod()+ mpp.getSecondPeriod()+mpp.getThirdPeriod()+ mpp.getInjuryTime();
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(club.getName() + "GoalsStats.pdf"));
@@ -151,30 +155,51 @@ public class StatisticsService {
             document.add(table);
 
             Font headerFont = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, BaseColor.BLACK);
-            Paragraph header = new Paragraph("Goals By Periods",headerFont);
-            header.setAlignment(Element.ALIGN_LEFT);
-            header.setSpacingAfter(10);
-            document.add(header);
+            Paragraph header2 = new Paragraph(club.getName()+" FC General Stats",headerFont);
+            header2.setAlignment(Element.ALIGN_LEFT);
+            header2.setSpacingAfter(10);
+            document.add(header2);
+
+            Paragraph paragraph11 = new Paragraph("Games Played: " +clubRank.getMatchesPlayed());
+            Paragraph paragraph22 = new Paragraph("Games Won: " +clubRank.getWon());
+            Paragraph paragraph33 = new Paragraph("Games Drawn: " +clubRank.getDrawn());
+            Paragraph paragraph44 = new Paragraph("Games Lost: " +clubRank.getLost());
+            Paragraph paragraph5 = new Paragraph("Win rate: "+ formatDecimal((float)clubRank.getWon()/(float) clubRank.getMatchesPlayed()*100)+"%");
+
+            document.add(paragraph11);
+            document.add(paragraph22);
+            document.add(paragraph33);
+            document.add(paragraph44);
+            document.add(paragraph5);
+
+            Paragraph header3 = new Paragraph("League Goals By Periods", headerFont);
+            header3.setAlignment(Element.ALIGN_LEFT);
+            header3.setSpacingAfter(10);
+            document.add(header3);
 
             Paragraph paragraph1 = new Paragraph("Goals in first 30 minutes: " + formatDecimal(((float) mpp.getFirstPeriod() / (float) goals * 100)) + "% (" + mpp.getFirstPeriod() + ")");
             Paragraph paragraph2 = new Paragraph("Goals in second 30 minutes: " + formatDecimal(((float) mpp.getSecondPeriod() / (float) goals * 100)) + "% (" + mpp.getSecondPeriod() + ")");
             Paragraph paragraph3 = new Paragraph("Goals in third 30 minutes: " + formatDecimal(((float) mpp.getThirdPeriod() / (float) goals * 100)) + "% (" + mpp.getThirdPeriod() + ")");
             Paragraph paragraph4 = new Paragraph("Goals in injury time: " + formatDecimal(((float) mpp.getInjuryTime() / (float) goals * 100)) + "% (" + mpp.getInjuryTime() + ")");
-            paragraph1.setAlignment(Element.ALIGN_LEFT);
-            paragraph2.setAlignment(Element.ALIGN_LEFT);
-            paragraph3.setAlignment(Element.ALIGN_LEFT);
-            paragraph4.setAlignment(Element.ALIGN_LEFT);
+            document.add(paragraph1);
+            document.add(paragraph2);
+            document.add(paragraph3);
+            document.add(paragraph4);
 
+            Paragraph managerHeader = new Paragraph("Coaching Staff", headerFont);
+            managerHeader.setAlignment(Element.ALIGN_LEFT);
+            managerHeader.setSpacingAfter(10);
+            document.add(managerHeader);
+            Paragraph manager = new Paragraph("Head coach: "+ managers.get(0).getName() + " "+managers.get(0).getSurname());
+            Paragraph manager2 = new Paragraph("Assistant coach: "+ managers.get(1).getName()+" "+ managers.get(1).getSurname());
+            document.add(manager);
+            document.add(manager2);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
             String formattedDate = LocalDate.now().format(formatter);
             Font dateFont = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD, BaseColor.BLACK);
             Paragraph date = new Paragraph("Data Taken On: " + formattedDate, dateFont);
 
             date.setAlignment(Element.ALIGN_RIGHT);
-            document.add(paragraph1);
-            document.add(paragraph2);
-            document.add(paragraph3);
-            document.add(paragraph4);
             document.add(date);
 
             document.close();

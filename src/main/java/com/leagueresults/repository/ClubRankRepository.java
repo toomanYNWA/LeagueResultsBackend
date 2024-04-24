@@ -1,6 +1,7 @@
 package com.leagueresults.repository;
 
 import com.leagueresults.model.City;
+import com.leagueresults.model.Club;
 import com.leagueresults.model.ClubRank;
 import com.leagueresults.model.League;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ import java.util.Optional;
 @Repository
 public interface ClubRankRepository extends JpaRepository<ClubRank,Long> {
     List<ClubRank> findAllByLeague_Id(long seasonId);
+
+    ClubRank findByClubAndLeagueId(Club club,Long id);
 }
