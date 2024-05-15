@@ -12,6 +12,7 @@ public class News {
     private Long id;
     private String headline;
     private String text;
+    @Column(name ="news_date")
     private LocalDate date;
 
     public News() {

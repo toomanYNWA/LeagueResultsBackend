@@ -16,10 +16,11 @@ public class Stadium {
     public Stadium() {
     }
 
-    public Stadium(Long id, Long capacity, String name) {
+    public Stadium(Long id, Long capacity, String name, City city) {
         this.id = id;
         this.capacity = capacity;
         this.name = name;
+        this.city = city;
     }
 
     public Long getId() {
@@ -44,5 +45,13 @@ public class Stadium {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

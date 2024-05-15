@@ -14,6 +14,8 @@ public class ClubConverterService {
         dto.setStadiumName(club.getStadium().getName());
         dto.setYearOfEstablishment(club.getYearOfEstablishment());
         dto.setInFirstLeague(club.getInFirstLeague());
+        dto.setStadiumCap(club.getStadium().getCapacity());
+        dto.setCityName(club.getStadium().getCity().getName());
         return dto;
     }
 }

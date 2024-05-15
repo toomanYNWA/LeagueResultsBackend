@@ -7,17 +7,21 @@ public class ClubDTO {
     private Boolean inFirstLeague;
     private String stadiumName;
     private String ownerName;
+    private Long stadiumCap;
+    private String cityName;
 
     public ClubDTO() {
     }
 
-    public ClubDTO(Long id, String name, Long yearOfEstablishment, Boolean inFirstLeague, String stadiumName, String ownerName) {
+    public ClubDTO(Long id, String name, Long yearOfEstablishment, Boolean inFirstLeague, String stadiumName, String ownerName, Long stadiumCap, String cityName) {
         this.id = id;
         this.name = name;
         this.yearOfEstablishment = yearOfEstablishment;
         this.inFirstLeague = inFirstLeague;
         this.stadiumName = stadiumName;
         this.ownerName = ownerName;
+        this.stadiumCap = stadiumCap;
+        this.cityName = cityName;
     }
 
     public Long getId() {
@@ -66,5 +70,21 @@ public class ClubDTO {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public Long getStadiumCap() {
+        return stadiumCap;
+    }
+
+    public void setStadiumCap(Long stadiumCap) {
+        this.stadiumCap = stadiumCap;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 }
